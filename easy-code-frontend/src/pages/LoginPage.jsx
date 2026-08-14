@@ -8,9 +8,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { User, Key, Mail, Lock, ArrowRight, AlertTriangle, CheckCircle, Code } from 'lucide-react';
-import { login, register, persistSession } from '../../services/authService';
-import { getRandomTip } from '../../data/welcomeTips';
-import { generateMatrixColumns } from '../../data/matrixSnippets';
+import { login, register, persistSession } from '../services/authService';
+import { getRandomTip } from '../data/welcomeTips';
+import { generateMatrixColumns } from '../data/matrixSnippets';
 
 // Pre-generate 50 matrix rain columns
 const codeColumns = generateMatrixColumns(50);
