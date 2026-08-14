@@ -97,6 +97,17 @@ export default function useWorkspace(showToast) {
     showToast(`Loaded ${selected.name} preset!`);
   };
 
+  /** Load external files dragged and dropped */
+  const loadDroppedFiles = (html, css, js) => {
+    setWorkspace({
+      html,
+      css,
+      js,
+      templateId: 'custom',
+    });
+    showToast('Loaded external files!');
+  };
+
   /** Reset workspace to template defaults */
   const handleReset = () => {
     const selected = templates.find((t) => t.id === workspace.templateId) || templates[0];
@@ -120,5 +131,6 @@ export default function useWorkspace(showToast) {
     handleEditorChange,
     handleTemplateChange,
     handleReset,
+    loadDroppedFiles,
   };
 }

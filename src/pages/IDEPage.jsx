@@ -15,6 +15,9 @@ import EditorPanel from '../components/editor/EditorPanel';
 import useWorkspace from '../hooks/useWorkspace';
 import useConsole from '../hooks/useConsole';
 import useToast from '../hooks/useToast';
+import { getFilesFromDataTransfer } from '../services/fileSystem';
+import { FolderDown } from 'lucide-react';
+
 
 export default function IDEPage() {
   const { toast, showToast } = useToast();
@@ -28,9 +31,12 @@ export default function IDEPage() {
     handleEditorChange,
     handleTemplateChange,
     handleReset,
+    loadDroppedFiles,
   } = useWorkspace(showToast);
 
-  const { consoleLogs, isConsoleCollapsed, clearLogs, toggleCollapsed } = useConsole();
+  const { consoleLogs, isConsoleCollapsed, clearLogs, toggleCollapsed, addSystemLog } = useConsole();
+
+  const [isDraggingFile, setIsDraggingFile] = useState(false);
 
   // ── Workspace Splitter Resizing ──
   const [leftWidth, setLeftWidth] = useState(50);
@@ -63,8 +69,96 @@ export default function IDEPage() {
     };
   }, [isDragging]);
 
+  // ── Drag & Drop Files ──
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    if (!isDraggingFile) setIsDraggingFile(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    // Only set to false if leaving the main container
+    if (e.target === e.currentTarget) setIsDraggingFile(false);
+  };
+
+  const handleDrop = async (e) => {
+    e.preventDefault();
+    setIsDraggingFile(false);
+
+    const items = e.dataTransfer.items;
+    if (!items) return;
+
+    if (!isConsoleCollapsed) addSystemLog(`> Scanning dropped folder/files...`);
+    const files = await getFilesFromDataTransfer(items);
+
+    let htmlContent = '';
+    let cssContent = '';
+    let jsContent = '';
+    let hasReact = false;
+
+    // Process index.html first
+    files.sort((a, b) => {
+      if (a.name === 'index.html') return -1;
+      if (b.name === 'index.html') return 1;
+      return 0;
+    });
+
+    for (const file of files) {
+      if (file.name === 'package.json' || file.name.endsWith('.jsx') || file.name.endsWith('.tsx')) {
+        hasReact = true;
+      }
+      
+      const ext = file.name.split('.').pop().toLowerCase();
+      if (['html', 'css', 'js'].includes(ext)) {
+        try {
+          const text = await file.text();
+          if (ext === 'html' && !htmlContent) {
+            htmlContent = text;
+            addSystemLog(`Loaded HTML: ${file.filepath}`);
+          } else if (ext === 'css') {
+            cssContent += `\n/* --- ${file.filepath} --- */\n${text}\n`;
+            addSystemLog(`Loaded CSS: ${file.filepath}`);
+          } else if (ext === 'js') {
+            jsContent += `\n// --- ${file.filepath} --- \n${text}\n`;
+            addSystemLog(`Loaded JS: ${file.filepath}`);
+          }
+        } catch (err) {
+          addSystemLog(`Error reading ${file.filepath}`, true);
+        }
+      }
+    }
+
+    if (hasReact) {
+      addSystemLog('WARNING: package.json or React files detected. This sandbox only supports static HTML/CSS/JS.', true);
+    }
+
+    if (!htmlContent && !cssContent && !jsContent) {
+      addSystemLog('No valid HTML, CSS, or JS files found in drop.', true);
+      return;
+    }
+
+    loadDroppedFiles(htmlContent || '<!-- No HTML found -->', cssContent, jsContent);
+    addSystemLog(`> Successfully bundled and loaded project!`);
+  };
+
   return (
-    <div className="app-container">
+    <div 
+      className="app-container"
+      onDragOver={handleDragOver}
+      onDragLeave={handleDragLeave}
+      onDrop={handleDrop}
+    >
+      {/* Drag overlay */}
+      {isDraggingFile && (
+        <div className="drop-overlay">
+          <div className="drop-overlay-content">
+            <FolderDown size={64} className="drop-icon" />
+            <h2>Drop Project Folder</h2>
+            <p>We'll magically bundle your HTML, CSS, and JS files.</p>
+          </div>
+        </div>
+      )}
+
       {/* Top Header */}
       <Header
         workspace={workspace}

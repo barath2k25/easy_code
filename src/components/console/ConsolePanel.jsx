@@ -10,7 +10,7 @@ import { useRef, useEffect, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   ChevronDown, ChevronUp, Trash2,
-  Info, AlertTriangle, XCircle, Terminal,
+  Info, AlertTriangle, XCircle, Terminal, ChevronRight
 } from 'lucide-react';
 
 const LOG_COLORS = {
@@ -18,6 +18,7 @@ const LOG_COLORS = {
   warn:  { border: '#f59e0b', bg: 'rgba(245,158,11,0.07)', text: '#fde047' },
   error: { border: '#ec4899', bg: 'rgba(236,72,153,0.07)', text: '#fda4af' },
   info:  { border: '#06b6d4', bg: 'rgba(6,182,212,0.06)',  text: '#99f6e4' },
+  system:{ border: '#8b5cf6', bg: 'rgba(139,92,246,0.08)', text: '#ddd6fe' },
 };
 
 function LogIcon({ type }) {
@@ -25,6 +26,7 @@ function LogIcon({ type }) {
   if (type === 'error') return <XCircle style={{ ...s, color: '#ec4899' }} />;
   if (type === 'warn')  return <AlertTriangle style={{ ...s, color: '#f59e0b' }} />;
   if (type === 'info')  return <Info style={{ ...s, color: '#06b6d4' }} />;
+  if (type === 'system') return <ChevronRight style={{ ...s, color: '#8b5cf6' }} />;
   return <Info style={{ ...s, color: '#6366f1' }} />;
 }
 

@@ -38,5 +38,20 @@ export default function useConsole() {
   const clearLogs = () => setConsoleLogs([]);
   const toggleCollapsed = () => setIsConsoleCollapsed((c) => !c);
 
-  return { consoleLogs, isConsoleCollapsed, clearLogs, toggleCollapsed };
+  const addSystemLog = (message, isError = false) => {
+    setConsoleLogs((prev) => [
+      ...prev,
+      {
+        type: isError ? 'error' : 'system',
+        message,
+        timestamp: new Date().toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        }),
+      },
+    ]);
+  };
+
+  return { consoleLogs, isConsoleCollapsed, clearLogs, toggleCollapsed, addSystemLog };
 }
