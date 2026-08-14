@@ -86,9 +86,7 @@ export default function ConsolePanel({
           className={`console-resize-handle ${isDragging ? 'dragging' : ''}`}
           onMouseDown={onMouseDown}
           title="Drag to resize console"
-        >
-          <div className="console-resize-grip" />
-        </div>
+        />
       )}
 
       {/* Header bar */}
