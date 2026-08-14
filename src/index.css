@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('./styles/mobile.css');
 
 :root {
   --bg-app: #030712;
@@ -1157,53 +1158,7 @@ body {
   100% { transform: translateY(0); }
 }
 
-/* ========================================================
-   Mobile Responsiveness
-======================================================== */
-@media (max-width: 768px) {
-  /* Login Page Mobile tweaks */
-  .login-card-wrapper {
-    padding: 24px 16px;
-    max-width: 100%;
-  }
-
-  .login-brand {
-    flex-direction: column;
-    text-align: center;
-  }
-
-  .login-app-name {
-    font-size: 20px;
-  }
-
-  /* Main IDE Workspace Stacking */
-  .workspace {
-    flex-direction: column !important;
-  }
-
-  /* Override specific inline/CSS widths using the CSS custom property method from App.jsx */
-  .preview-panel {
-    width: 100% !important;
-    height: 40vh; /* Fixed height for preview on mobile */
-    flex: none;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-  }
-
-  .editor-panel {
-    width: 100% !important;
-    height: 60vh; /* Remaining height for editor */
-    flex: none;
-  }
-
-  .workspace-resizer {
-    display: none !important;
-  }
-
-  .mobile-hidden {
-    display: none !important;
-  }
-}
+/* Mobile responsiveness is now handled via styles/mobile.css */
 
 /* ═══════════════════════════════════════════════════════════════
    SPLASH PAGE

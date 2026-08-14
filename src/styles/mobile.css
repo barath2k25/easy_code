@@ -1,0 +1,118 @@
+/**
+ * styles/mobile.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Dedicated mobile responsive overrides.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+@media (max-width: 768px) {
+  /* ── Header Adjustments ── */
+  .app-header {
+    padding: 0 12px !important;
+  }
+
+  .logo-text, .logo-badge {
+    display: none !important;
+  }
+
+  .template-selector {
+    padding: 6px 8px !important;
+  }
+
+  .template-selector label {
+    display: none !important;
+  }
+
+  .header-actions {
+    gap: 8px !important;
+  }
+
+  .btn-action {
+    padding: 6px 10px !important;
+  }
+
+  .mobile-hidden {
+    display: none !important;
+  }
+
+  /* ── Workspace Stacking ── */
+  .workspace {
+    flex-direction: column !important;
+  }
+
+  /* Hide the vertical workspace resizer entirely */
+  .workspace-resizer:not(.horizontal) {
+    display: none !important;
+  }
+
+  /* Preview Panel takes top half */
+  .preview-panel {
+    width: 100% !important;
+    height: 45% !important; /* using height instead of flex to split properly */
+    flex: none !important;
+    border-right: none !important;
+    border-bottom: 2px solid var(--border-active) !important;
+  }
+
+  /* Editor Panel takes bottom half */
+  .editor-panel {
+    width: 100% !important;
+    height: 55% !important;
+    flex: none !important;
+  }
+
+  /* ── Console Adjustments ── */
+  .console-panel {
+    max-height: 50vh !important; /* Prevent console from taking over screen */
+  }
+
+  /* Make viewport buttons smaller */
+  .viewport-controls .btn-viewport span {
+    display: none !important;
+  }
+  .viewport-controls .btn-viewport {
+    padding: 4px 8px !important;
+  }
+
+  /* ── Toast Notifications ── */
+  .toast-container {
+    bottom: 12px !important;
+    left: 12px !important;
+    right: 12px !important;
+  }
+  
+  .toast {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* ── Splash Page Adjustments ── */
+  .splash-content {
+    padding: 24px 16px !important;
+  }
+
+  .splash-pills {
+    gap: 6px !important;
+  }
+
+  .splash-pill {
+    padding: 4px 10px !important;
+    font-size: 11px !important;
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 400px) {
+  .splash-logo-mark {
+    font-size: 28px !important;
+  }
+  
+  .splash-title {
+    font-size: 36px !important;
+  }
+
+  .template-select {
+    font-size: 12px !important;
+    max-width: 90px !important;
+  }
+}
