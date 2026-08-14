@@ -1,28 +1,19 @@
 /**
  * Header.jsx
  * ─────────────────────────────────────────────────────────────────────────────
- * Top navigation bar with logo, preset selector, action buttons,
- * user info, and logout.
+ * Top navigation bar — no user/logout since auth is removed.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
 import React from 'react';
-import {
-  RotateCcw,
-  Share2,
-  Download,
-  User,
-  LogOut,
-} from 'lucide-react';
+import { RotateCcw, Share2, Download } from 'lucide-react';
 import { templates } from '../../data/templates';
 import { exportAsZip, generateShareLink } from '../../services/workspaceService';
 
 export default function Header({
   workspace,
-  authUser,
   onTemplateChange,
   onReset,
-  onLogout,
   showToast,
 }) {
   const handleDownloadZip = async () => {
@@ -88,23 +79,6 @@ export default function Header({
           <Download size={14} />
           <span className="mobile-hidden">Export ZIP</span>
         </button>
-
-        {/* User / Logout */}
-        <div className="header-user-section">
-          <div className="header-user-info">
-            <User size={14} style={{ color: 'var(--primary)' }} />
-            <span className="header-username">{authUser.username}</span>
-          </div>
-          <button
-            className="btn-action"
-            onClick={onLogout}
-            title="Sign out"
-            style={{ padding: '6px 12px', height: '32px', gap: '6px' }}
-          >
-            <LogOut size={13} />
-            <span className="mobile-hidden">Logout</span>
-          </button>
-        </div>
       </div>
     </header>
   );

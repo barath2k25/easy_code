@@ -1,14 +1,13 @@
 /**
  * IDEPage.jsx
  * ─────────────────────────────────────────────────────────────────────────────
- * The main workspace page — split-pane IDE with live preview on the left
- * and Monaco code editor on the right, plus a developer console.
+ * Main IDE workspace — no auth required.
+ * Split-pane: Live preview (left) + Monaco editor (right) + console.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
 import React, { useState, useEffect, useRef } from 'react';
 import Header from '../components/layout/Header';
-import WelcomeBanner from '../components/layout/WelcomeBanner';
 import Toast from '../components/layout/Toast';
 import PreviewPanel from '../components/preview/PreviewPanel';
 import ConsolePanel from '../components/console/ConsolePanel';
@@ -17,7 +16,7 @@ import useWorkspace from '../hooks/useWorkspace';
 import useConsole from '../hooks/useConsole';
 import useToast from '../hooks/useToast';
 
-export default function IDEPage({ authUser, welcomeBanner, onLogout, onDismissBanner }) {
+export default function IDEPage() {
   const { toast, showToast } = useToast();
 
   const {
@@ -66,16 +65,11 @@ export default function IDEPage({ authUser, welcomeBanner, onLogout, onDismissBa
 
   return (
     <div className="app-container">
-      {/* Welcome Banner */}
-      <WelcomeBanner banner={welcomeBanner} onDismiss={onDismissBanner} />
-
       {/* Top Header */}
       <Header
         workspace={workspace}
-        authUser={authUser}
         onTemplateChange={handleTemplateChange}
         onReset={handleReset}
-        onLogout={onLogout}
         showToast={showToast}
       />
 

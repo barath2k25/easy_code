@@ -1,40 +1,21 @@
 /**
  * App.jsx
  * ─────────────────────────────────────────────────────────────────────────────
- * Root application component — acts as a lightweight auth guard / router.
- *
- * ┌──────────────┐      ┌──────────────┐
- * │  LoginPage   │ ───▶ │   IDEPage    │
- * │  (unauthd)   │      │  (authd)     │
- * └──────────────┘      └──────────────┘
+ * Root component — shows a splash landing page first, then the IDE.
+ * No auth required. Pure code viewer / playground.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import React from 'react';
-import LoginPage from './pages/LoginPage';
+import React, { useState } from 'react';
+import SplashPage from './pages/SplashPage';
 import IDEPage from './pages/IDEPage';
-import useAuth from './hooks/useAuth';
 
 export default function App() {
-  const {
-    authUser,
-    welcomeBanner,
-    handleAuthSuccess,
-    handleLogout,
-    dismissBanner,
-  } = useAuth();
+  const [started, setStarted] = useState(false);
 
-  // Auth guard — show login if not authenticated
-  if (!authUser) {
-    return <LoginPage onAuthSuccess={handleAuthSuccess} />;
+  if (!started) {
+    return <SplashPage onStart={() => setStarted(true)} />;
   }
 
-  return (
-    <IDEPage
-      authUser={authUser}
-      welcomeBanner={welcomeBanner}
-      onLogout={handleLogout}
-      onDismissBanner={dismissBanner}
-    />
-  );
+  return <IDEPage />;
 }
