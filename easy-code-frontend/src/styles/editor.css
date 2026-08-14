@@ -1,0 +1,120 @@
+/**
+ * styles/editor.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Editor panel — file tabs, Monaco wrapper, settings popover.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+.editor-panel {
+  flex: 0.9;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-sidebar);
+  height: 100%;
+  overflow: hidden;
+}
+
+.editor-header {
+  height: 48px;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-sidebar);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px 0 0;
+}
+
+/* File Tabs */
+.editor-tabs { display: flex; height: 100%; }
+
+.tab-btn {
+  background: transparent;
+  border: none;
+  border-right: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  padding: 0 20px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.tab-btn:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+  color: var(--text-primary);
+}
+
+.tab-btn.active {
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  border-bottom: 2px solid var(--primary);
+}
+
+.tab-icon       { width: 14px; height: 14px; }
+.tab-icon.html  { color: #e34f26; }
+.tab-icon.css   { color: #1572b6; }
+.tab-icon.js    { color: #f7df1e; }
+
+/* Settings Toggle */
+.editor-settings { display: flex; align-items: center; gap: 12px; }
+
+.editor-config-btn {
+  background: transparent; border: none;
+  color: var(--text-secondary); cursor: pointer;
+  display: flex; align-items: center;
+  padding: 6px; border-radius: 6px;
+  transition: all 0.2s;
+}
+
+.editor-config-btn:hover {
+  color: var(--text-primary);
+  background-color: var(--bg-panel);
+}
+
+/* Settings Popover */
+.settings-popover {
+  position: absolute;
+  top: 100px; right: 20px;
+  background-color: var(--bg-panel);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 100;
+  width: 200px;
+}
+
+.settings-item { display: flex; flex-direction: column; gap: 6px; }
+
+.settings-item label {
+  font-size: 11px; color: var(--text-secondary);
+  font-weight: 600; text-transform: uppercase;
+}
+
+.settings-item select {
+  background-color: var(--bg-sidebar);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 6px 10px;
+  border-radius: 6px;
+  outline: none;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Editor Inner */
+.editor-inner { flex: 1; position: relative; overflow: hidden; }
+
+.editor-placeholder {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); font-size: 14px;
+}

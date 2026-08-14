@@ -1,0 +1,286 @@
+/**
+ * styles/login.css
+ * ─────────────────────────────────────────────────────────────────────────────
+ * Login / Register page — animated background, glass card, forms, matrix rain.
+ * ─────────────────────────────────────────────────────────────────────────────
+ */
+
+/* ── Root ────────────────────────────────────────────────────────────────── */
+.login-root {
+  position: fixed; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-sans);
+  overflow: hidden;
+}
+
+/* ── Animated Background ─────────────────────────────────────────────────── */
+.login-bg { position: absolute; inset: 0; z-index: 0; }
+
+.login-bg-gradient {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(99, 102, 241, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 70% at 80% 70%, rgba(168, 85, 247, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(6, 182, 212, 0.03) 0%, transparent 70%),
+    #000000;
+  animation: bgPulse 15s ease-in-out infinite alternate;
+}
+
+@keyframes bgPulse { 0% { opacity: 0.8; } 100% { opacity: 1; } }
+
+.login-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse 100% 100% at 50% 50%, black 30%, transparent 80%);
+}
+
+/* Floating Particles */
+.login-particle {
+  position: absolute; border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0px) scale(1);    opacity: var(--particle-opacity, 0.3); }
+  50%  { transform: translateY(-30px) scale(1.2); }
+  100% { transform: translateY(-60px) scale(0.8); opacity: 0; }
+}
+
+/* ── Card Wrapper ────────────────────────────────────────────────────────── */
+.login-card-wrapper {
+  position: relative; z-index: 10;
+  display: flex; flex-direction: column; align-items: center; gap: 24px;
+  width: 100%; max-width: 440px; padding: 16px;
+}
+
+/* Brand */
+.login-brand {
+  display: flex; align-items: center; gap: 14px;
+  animation: fadeSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeSlideDown {
+  from { transform: translateY(-20px); opacity: 0; }
+  to   { transform: translateY(0);     opacity: 1; }
+}
+
+.login-logo {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  width: 52px; height: 52px; border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 900; color: white; font-size: 22px; letter-spacing: -1px;
+  box-shadow: 0 0 30px rgba(99, 102, 241, 0.5), 0 0 60px rgba(168, 85, 247, 0.2);
+  flex-shrink: 0;
+}
+
+.login-app-name {
+  font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+  background: linear-gradient(90deg, #ffffff 0%, #c4b5fd 50%, var(--accent-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.login-tagline {
+  font-size: 12px; color: var(--text-muted);
+  margin-top: 2px; letter-spacing: 0.3px;
+}
+
+/* ── Glass Card ──────────────────────────────────────────────────────────── */
+.login-glass-card {
+  width: 100%;
+  background: rgba(11, 15, 25, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow:
+    0 25px 50px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(99, 102, 241, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  animation: cardFadeIn 0.7s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes cardFadeIn {
+  from { transform: translateY(30px) scale(0.97); opacity: 0; }
+  to   { transform: translateY(0) scale(1);        opacity: 1; }
+}
+
+/* Tabs */
+.login-tabs {
+  display: flex;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-color);
+  border-radius: 12px; padding: 4px;
+  margin-bottom: 24px; gap: 4px;
+}
+
+.login-tab {
+  flex: 1; background: transparent; border: none;
+  color: var(--text-muted); font-family: var(--font-sans);
+  font-size: 14px; font-weight: 600;
+  padding: 10px 16px; border-radius: 9px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.login-tab:hover { color: var(--text-secondary); }
+
+.login-tab.active {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.35);
+}
+
+/* Error Banner */
+.login-error-banner {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(236, 72, 153, 0.08);
+  border: 1px solid rgba(236, 72, 153, 0.25);
+  border-radius: 10px; padding: 12px 16px;
+  margin-bottom: 20px; font-size: 13px; color: #fda4af;
+  animation: shake 0.3s ease-in-out;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+.login-error-icon { font-size: 16px; flex-shrink: 0; }
+
+/* Form Fields */
+.login-form { display: flex; flex-direction: column; gap: 18px; }
+
+.login-field { display: flex; flex-direction: column; gap: 8px; }
+
+.login-field label {
+  font-size: 12px; font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+.login-input-wrapper { position: relative; display: flex; align-items: center; }
+
+.login-input-icon {
+  position: absolute; left: 14px;
+  font-size: 15px; pointer-events: none; z-index: 1;
+}
+
+.login-input-wrapper input {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 13px 16px 13px 44px;
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 14px; outline: none;
+  transition: all 0.25s;
+}
+
+.login-input-wrapper input::placeholder { color: var(--text-muted); }
+
+.login-input-wrapper input:focus {
+  border-color: var(--primary);
+  background: rgba(99, 102, 241, 0.06);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12);
+}
+
+/* Submit Button */
+.login-submit-btn {
+  margin-top: 6px; width: 100%;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  border: none; border-radius: 12px;
+  color: white; font-family: var(--font-sans);
+  font-size: 15px; font-weight: 700;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+  letter-spacing: 0.2px;
+}
+
+.login-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5);
+}
+
+.login-submit-btn:active:not(:disabled) { transform: translateY(0); }
+.login-submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+.login-submit-btn.loading  { pointer-events: none; }
+
+.login-btn-arrow { font-size: 18px; transition: transform 0.2s; }
+.login-submit-btn:hover .login-btn-arrow { transform: translateX(4px); }
+
+/* Spinner */
+.login-spinner {
+  width: 20px; height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Switch text */
+.login-switch-text { text-align: center; font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+
+.login-link-btn {
+  background: none; border: none;
+  color: var(--primary); font-family: var(--font-sans);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  padding: 0; text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.2s;
+}
+
+.login-link-btn:hover { color: var(--secondary); }
+
+/* Footer */
+.login-footer { font-size: 11px; color: var(--text-muted); text-align: center; opacity: 0.7; }
+
+/* ── Matrix Code Background ──────────────────────────────────────────────── */
+.login-code-bg {
+  position: absolute; top: 0; left: 0;
+  width: 100%; height: 100%;
+  display: flex; justify-content: space-evenly;
+  opacity: 0.25;
+  pointer-events: none; overflow: hidden; user-select: none;
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  font-size: 14px; font-weight: 600; z-index: 1;
+}
+
+.code-column {
+  display: flex; flex-direction: column;
+  white-space: nowrap; width: 20px; align-items: center;
+}
+
+.code-column.up   { animation: scroll-up   120s linear infinite; }
+.code-column.down { animation: scroll-down 150s linear infinite; }
+.code-column:nth-child(even) { margin-top: -30px; }
+
+.code-line {
+  padding: 4px 0;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 2px;
+  color: #c9d1d9;
+  text-shadow: 0 0 2px rgba(201, 209, 217, 0.3);
+  font-weight: 500;
+}
+
+.code-line:nth-child(3n)   { color: #79c0ff; text-shadow: 0 0 2px rgba(121, 192, 255, 0.3); }
+.code-line:nth-child(3n+1) { color: #d2a8ff; text-shadow: 0 0 2px rgba(210, 168, 255, 0.3); }
+.code-line:nth-child(3n+2) { color: #a5d6ff; text-shadow: 0 0 2px rgba(165, 214, 255, 0.3); }
+
+@keyframes scroll-up   { 0% { transform: translateY(0);    } 100% { transform: translateY(-50%); } }
+@keyframes scroll-down { 0% { transform: translateY(-50%); } 100% { transform: translateY(0);    } }
