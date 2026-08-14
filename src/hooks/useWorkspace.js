@@ -122,6 +122,11 @@ export default function useWorkspace(showToast) {
     }
   };
 
+  const setTabContent = (tab, content) => {
+    setWorkspace((prev) => ({ ...prev, [tab]: content }));
+    setActiveTab(tab);
+  };
+
   return {
     workspace,
     activeTab,
@@ -132,5 +137,6 @@ export default function useWorkspace(showToast) {
     handleTemplateChange,
     handleReset,
     loadDroppedFiles,
+    setTabContent,
   };
 }

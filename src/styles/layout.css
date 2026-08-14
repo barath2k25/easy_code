@@ -334,3 +334,142 @@
   transition: color 0.2s;
 }
 .welcome-banner-close:hover { color: var(--text-primary); }
+
+/* ── Editor Import Button ───────────────────────────────────────────────── */
+.editor-import-btn {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  color: var(--primary);
+  padding: 6px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.editor-import-btn:hover {
+  background: rgba(99, 102, 241, 0.25);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* ── File Explorer Sidebar ──────────────────────────────────────────────── */
+.file-explorer {
+  width: 100%;
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-color);
+  font-size: 13px;
+  max-height: 240px;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-shrink: 0;
+  animation: explorerSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes explorerSlideIn {
+  from { opacity: 0; transform: translateY(-10px); max-height: 0; }
+  to   { opacity: 1; transform: translateY(0);     max-height: 240px; }
+}
+
+.file-explorer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  background-color: var(--bg-sidebar);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+
+.file-explorer-title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.file-explorer-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px 4px;
+  border-radius: 4px;
+  transition: color 0.2s, background 0.2s;
+  line-height: 1;
+}
+.file-explorer-close:hover {
+  color: var(--text-primary);
+  background: rgba(255,255,255,0.06);
+}
+
+.file-explorer-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 4px 0;
+}
+.file-explorer-body::-webkit-scrollbar { width: 4px; }
+.file-explorer-body::-webkit-scrollbar-track { background: transparent; }
+.file-explorer-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
+
+/* Tree nodes */
+.explorer-node-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.explorer-node {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 26px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  border-radius: 4px;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+.explorer-node:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--text-primary);
+}
+.explorer-node.selected {
+  background: rgba(99, 102, 241, 0.2);
+  color: var(--text-primary);
+}
+
+.explorer-node-icon {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.explorer-node-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+}
+
+.explorer-node-children {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Explorer icon accent colors */
+.explorer-icon.html { color: #e44d26; }
+.explorer-icon.css  { color: #264de4; }
+.explorer-icon.js   { color: #f7df1e; }
+.explorer-icon.json { color: #cbcb41; }
+.explorer-icon.img  { color: #68b0d8; }
+.explorer-icon.folder { color: #dcb862; }
+

@@ -12,6 +12,7 @@ import Toast from '../components/layout/Toast';
 import PreviewPanel from '../components/preview/PreviewPanel';
 import ConsolePanel from '../components/console/ConsolePanel';
 import EditorPanel from '../components/editor/EditorPanel';
+import FileExplorer from '../components/file-explorer/FileExplorer';
 import useWorkspace from '../hooks/useWorkspace';
 import useConsole from '../hooks/useConsole';
 import useToast from '../hooks/useToast';
@@ -32,7 +33,31 @@ export default function IDEPage() {
     handleTemplateChange,
     handleReset,
     loadDroppedFiles,
+    setTabContent,
   } = useWorkspace(showToast);
+
+  const [fileTree, setFileTree] = useState(null);
+
+  const handleImport = ({ html, css, js, fileTree: tree }) => {
+    loadDroppedFiles(html, css, js);
+    setFileTree(tree);
+  };
+
+  const handleSelectFile = (fileNode) => {
+    const { ext, content } = fileNode;
+    if (!content) return;
+    if (ext === 'html') {
+      setTabContent('html', content);
+    } else if (ext === 'css') {
+      setTabContent('css', content);
+    } else if (ext === 'js') {
+      setTabContent('js', content);
+    }
+    // Other file types (images, json) are shown in explorer but not loaded into editor
+  };
+
+  const handleCloseExplorer = () => setFileTree(null);
+
 
   const { consoleLogs, isConsoleCollapsed, clearLogs, toggleCollapsed, addSystemLog } = useConsole();
 
@@ -191,12 +216,21 @@ export default function IDEPage() {
         />
 
         {/* RIGHT PANEL — Editor */}
-        <section className="editor-panel" style={{ width: `${100 - leftWidth}%`, flex: 'none' }}>
+        <section className="editor-panel" style={{ width: `${100 - leftWidth}%`, flex: 'none', display: 'flex', flexDirection: 'column' }}>
+          {fileTree && (
+            <FileExplorer
+              fileTree={fileTree}
+              onSelectFile={handleSelectFile}
+              onClose={handleCloseExplorer}
+            />
+          )}
+
           <EditorPanel
             workspace={workspace}
             activeTab={activeTab}
             onTabChange={setActiveTab}
             onEditorChange={handleEditorChange}
+            onImport={handleImport}
           />
         </section>
       </main>
