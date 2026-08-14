@@ -3,7 +3,7 @@
  * Code/binary/hex rain scrolling UP and DOWN, rich brand, no login needed.
  */
 
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { generateMatrixColumns } from '../data/matrixSnippets';
 

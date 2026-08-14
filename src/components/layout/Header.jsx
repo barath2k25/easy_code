@@ -1,9 +1,9 @@
 /**
  * Header.jsx — Top nav bar with motion hover effects. No auth/user section.
  */
-import React, { useState } from 'react';
+
 import { motion } from 'framer-motion';
-import { RotateCcw, Share2, Download, Code2, ChevronDown } from 'lucide-react';
+import { RotateCcw, Share2, Download, ChevronDown } from 'lucide-react';
 import { templates } from '../../data/templates';
 import { exportAsZip, generateShareLink } from '../../services/workspaceService';
 
@@ -13,7 +13,7 @@ export default function Header({ workspace, onTemplateChange, onReset, showToast
     try {
       await exportAsZip(workspace);
       showToast('Project ZIP downloaded!');
-    } catch (e) {
+    } catch {
       showToast('Failed to generate ZIP.');
     }
   };
@@ -22,7 +22,7 @@ export default function Header({ workspace, onTemplateChange, onReset, showToast
     try {
       generateShareLink(workspace);
       showToast('Shareable link copied to clipboard!');
-    } catch (e) {
+    } catch {
       showToast('Failed to generate link.');
     }
   };

@@ -1,7 +1,7 @@
 /**
  * App.jsx — Root with animated page transition between Splash and IDE
  */
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import SplashPage from './pages/SplashPage';
 import IDEPage from './pages/IDEPage';

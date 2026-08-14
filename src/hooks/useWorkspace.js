@@ -46,6 +46,7 @@ export default function useWorkspace(showToast) {
 
   // Debounced live compilation
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsCompiling(true);
     if (debounceRef.current) clearTimeout(debounceRef.current);
 
@@ -59,6 +60,7 @@ export default function useWorkspace(showToast) {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspace.html, workspace.css, workspace.js]);
 
   /** Update the active tab's code */

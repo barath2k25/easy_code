@@ -5,7 +5,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Play, Monitor, Tablet, Smartphone } from 'lucide-react';
 
 export default function PreviewPanel({ iframeSrc, isCompiling, isDragging }) {
@@ -42,7 +42,7 @@ export default function PreviewPanel({ iframeSrc, isCompiling, isDragging }) {
 
         <button
           className="btn-action"
-          onClick={() => { if (iframeRef.current) iframeRef.current.src = iframeRef.current.src; }}
+          onClick={() => { if (iframeRef.current) { const currentSrc = iframeRef.current.src; iframeRef.current.src = currentSrc; } }}
           title="Force reload preview frame"
           style={{ padding: '6px 10px', height: '32px' }}
         >
