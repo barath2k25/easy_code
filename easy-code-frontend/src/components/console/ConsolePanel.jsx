@@ -83,7 +83,7 @@ export default function ConsolePanel({
       {!isConsoleCollapsed && (
         <div
           ref={dragRef}
-          className={`console-resize-handle ${isDragging ? 'dragging' : ''}`}
+          className={`workspace-resizer horizontal ${isDragging ? 'dragging' : ''}`}
           onMouseDown={onMouseDown}
           title="Drag to resize console"
         />

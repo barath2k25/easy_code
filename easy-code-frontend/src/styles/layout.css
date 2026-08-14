@@ -205,6 +205,12 @@
   flex-shrink: 0;
 }
 
+.workspace-resizer.horizontal {
+  width: 100%;
+  height: 5px;
+  cursor: ns-resize;
+}
+
 .workspace-resizer:hover,
 .workspace-resizer.dragging {
   background-color: var(--primary);
@@ -215,7 +221,11 @@
   content: '';
   position: absolute;
   top: 0; bottom: 0; left: -5px; right: -5px;
-  cursor: col-resize;
+  cursor: inherit;
+}
+
+.workspace-resizer.horizontal::after {
+  top: -5px; bottom: -5px; left: 0; right: 0;
 }
 
 /* ── Toast ─────────────────────────────────────────────────────────────── */
