@@ -1240,13 +1240,14 @@ body {
   inset: 0;
   display: flex;
   overflow: hidden;
+  gap: 2px;
 }
 
 .splash-col {
   display: flex;
   flex-direction: column;
   flex: 1;
-  min-width: 0;
+  min-width: 120px;          /* wide enough to show code snippets */
   will-change: transform;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
@@ -1267,13 +1268,14 @@ body {
 
 .splash-col-line {
   font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 4px 6px;
+  font-size: 12px;            /* slightly bigger so text is legible */
+  padding: 5px 8px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #6366f1;
-  line-height: 1.7;
+  /* color is set inline per-column in JSX */
+  line-height: 1.8;
+  letter-spacing: 0.3px;
 }
 
 .splash-vignette {

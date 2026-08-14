@@ -1,48 +1,56 @@
 /**
- * SplashPage.jsx
- * ─────────────────────────────────────────────────────────────────────────────
- * Animated landing page — code/number rain moving UP and DOWN in alternating
- * columns, with the EASY CODE brand and a "Start Coding" CTA.
- * No login. No backend. Pure vibe.
- * ─────────────────────────────────────────────────────────────────────────────
+ * SplashPage.jsx — Animated landing page with Framer Motion
+ * Code/binary/hex rain scrolling UP and DOWN, rich brand, no login needed.
  */
 
 import React, { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { generateMatrixColumns } from '../data/matrixSnippets';
 
-const codeColumns = generateMatrixColumns(60);
+const codeColumns = generateMatrixColumns(45);
+
+// Column color themes — alternating for visual depth
+const COL_COLORS = [
+  '#6366f1', // indigo
+  '#a855f7', // purple
+  '#06b6d4', // cyan
+  '#6366f1',
+  '#ec4899', // pink (sparse)
+];
 
 export default function SplashPage({ onStart }) {
-  const [visible, setVisible] = useState(false);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Trigger entrance animation after mount
-    const t = setTimeout(() => setVisible(true), 100);
+    const t = setTimeout(() => setReady(true), 80);
     return () => clearTimeout(t);
   }, []);
 
   return (
     <div className="splash-root">
 
-      {/* ── Animated Matrix Rain Background ── */}
+      {/* ── Animated matrix columns background ── */}
       <div className="splash-bg">
         <div className="splash-grid" />
 
         <div className="splash-columns">
           {codeColumns.map((col, colIdx) => {
-            const goesUp = colIdx % 2 === 0;
-            const speed  = 12 + (colIdx % 7) * 3; // 12s – 30s variety
+            const goesUp  = colIdx % 2 === 0;
+            const speed   = 14 + (colIdx % 9) * 2.5;   // 14s – 34s
+            const baseOpacity = 0.22 + (colIdx % 6) * 0.06; // 0.22 – 0.52
+            const color   = COL_COLORS[colIdx % COL_COLORS.length];
+
             return (
               <div
                 key={colIdx}
                 className={`splash-col ${goesUp ? 'go-up' : 'go-down'}`}
                 style={{
                   animationDuration: `${speed}s`,
-                  animationDelay: `${-(colIdx * 0.6) % speed}s`,
-                  opacity: 0.13 + (colIdx % 5) * 0.04,
+                  animationDelay: `${-(colIdx * 0.7) % speed}s`,
+                  opacity: baseOpacity,
+                  color,
                 }}
               >
-                {/* Duplicate content so scroll loops seamlessly */}
                 {[...col, ...col, ...col].map((line, i) => (
                   <div key={i} className="splash-col-line">{line}</div>
                 ))}
@@ -51,51 +59,110 @@ export default function SplashPage({ onStart }) {
           })}
         </div>
 
-        {/* Radial dark vignette so centre is readable */}
+        {/* Vignette — darkens edges */}
         <div className="splash-vignette" />
       </div>
 
-      {/* ── Centre Content ── */}
-      <div className={`splash-content ${visible ? 'splash-visible' : ''}`}>
+      {/* ── Centre content with Framer Motion entrance ── */}
+      <AnimatePresence>
+        {ready && (
+          <motion.div
+            className="splash-content"
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {/* Pulsing logo mark */}
+            <motion.div
+              className="splash-logo-mark"
+              animate={{ filter: [
+                'drop-shadow(0 0 8px rgba(99,102,241,0.5))',
+                'drop-shadow(0 0 24px rgba(168,85,247,0.9))',
+                'drop-shadow(0 0 8px rgba(99,102,241,0.5))',
+              ]}}
+              transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <span className="splash-bracket">&lt;</span>
+              <span className="splash-slash">/</span>
+              <span className="splash-bracket">&gt;</span>
+            </motion.div>
 
-        {/* Logo mark */}
-        <div className="splash-logo-mark">
-          <span className="splash-bracket">&lt;</span>
-          <span className="splash-slash">/</span>
-          <span className="splash-bracket">&gt;</span>
-        </div>
+            {/* Title */}
+            <motion.h1
+              className="splash-title"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15, duration: 0.7 }}
+            >
+              EASY<span className="splash-title-accent"> CODE</span>
+            </motion.h1>
 
-        {/* Brand name */}
-        <h1 className="splash-title">
-          EASY<span className="splash-title-accent"> CODE</span>
-        </h1>
+            {/* Tagline */}
+            <motion.p
+              className="splash-tagline"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.7 }}
+            >
+              Write · Preview · Export &nbsp;—&nbsp; instantly in your browser
+            </motion.p>
 
-        {/* Tagline */}
-        <p className="splash-tagline">
-          Write · Preview · Export &nbsp;—&nbsp; instantly in your browser
-        </p>
+            {/* Feature pills with staggered entrance */}
+            <motion.div
+              className="splash-pills"
+              initial="hidden"
+              animate="show"
+              variants={{
+                hidden: {},
+                show: { transition: { staggerChildren: 0.07, delayChildren: 0.45 } },
+              }}
+            >
+              {['HTML', 'CSS', 'JavaScript', 'Live Preview', 'Export ZIP', 'Code Share'].map((pill) => (
+                <motion.span
+                  key={pill}
+                  className="splash-pill"
+                  variants={{
+                    hidden: { opacity: 0, scale: 0.7 },
+                    show:   { opacity: 1, scale: 1 },
+                  }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  whileHover={{ scale: 1.1, borderColor: 'rgba(99,102,241,0.9)' }}
+                >
+                  {pill}
+                </motion.span>
+              ))}
+            </motion.div>
 
-        {/* Feature pills */}
-        <div className="splash-pills">
-          <span className="splash-pill">HTML</span>
-          <span className="splash-pill">CSS</span>
-          <span className="splash-pill">JavaScript</span>
-          <span className="splash-pill">Live Preview</span>
-          <span className="splash-pill">Export ZIP</span>
-        </div>
+            {/* CTA button */}
+            <motion.button
+              id="btn-start-coding"
+              className="splash-cta"
+              onClick={onStart}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.75, duration: 0.6 }}
+              whileHover={{ scale: 1.05, boxShadow: '0 0 50px rgba(168,85,247,0.7)' }}
+              whileTap={{ scale: 0.97 }}
+            >
+              <span>Start Coding</span>
+              <motion.span
+                className="splash-cta-arrow"
+                animate={{ x: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
+              >→</motion.span>
+            </motion.button>
 
-        {/* CTA */}
-        <button
-          id="btn-start-coding"
-          className="splash-cta"
-          onClick={onStart}
-        >
-          <span>Start Coding</span>
-          <span className="splash-cta-arrow">→</span>
-        </button>
-
-        <p className="splash-footer-note">No account needed · Works offline · Free forever</p>
-      </div>
+            <motion.p
+              className="splash-footer-note"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1, duration: 0.6 }}
+            >
+              No account needed · Works offline · Free forever
+            </motion.p>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
